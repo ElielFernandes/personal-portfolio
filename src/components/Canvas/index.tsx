@@ -21,17 +21,16 @@ type Props = {
 }
 
 export const Canvas = ({children}: Props) => {
+
     let ref = useRef<HTMLCanvasElement>(null);
+    let div = useRef<HTMLDivElement>(null);
 
 
     useEffect(() => {
         let canvas:any = ref.current;
         let context = canvas.getContext('2d');
 
-
         let ratio = getPixelRatio(context);
-
-        
 
         let width = getComputedStyle(canvas)
             .getPropertyValue('width')
@@ -40,24 +39,33 @@ export const Canvas = ({children}: Props) => {
             .getPropertyValue('height')
             .slice(0, -2);
 
-        console.log(width);
+        
 
         canvas.width = parseInt(width) * ratio;
         canvas.height = parseInt(height) * ratio;
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
+
+
+
+        window.addEventListener('resize', function(event) {
+
+            if(!div.current) return
+            let teste :any = div.current.getBoundingClientRect();
+
+            canvas.width = parseInt(teste.width) * ratio;
+            canvas.height = parseInt(teste.height) * ratio;
+            width = teste.width;
+            height = teste.height;
+
+            console.log(canvas.width);
+
+        }, true);
 
         let requestId:any;
-        let i = 0;
-
-
 
         const render = () => {
             context.clearRect(0,0, width, height);
             for(let i = 0; i < itens.length; i++)
             {
-
-
 
                 context.beginPath();
                 context.fillStyle = 'rgba(155, 189, 255, 1)';
@@ -205,7 +213,6 @@ export const Canvas = ({children}: Props) => {
 
 
         generateInitialItens();
-        console.log(itens);
         render();
 
         return () => {
@@ -227,8 +234,8 @@ export const Canvas = ({children}: Props) => {
     }
 
     return (
-        <CanvasStyle className='teste'>
-            <canvas ref={ref} style={{ width: '100vw', height: '99.3vh' }}>
+        <CanvasStyle className='teste' ref={div}>
+            <canvas ref={ref} style={{ width: '100vw', height: '99vh' }}>
                 Your browser does not support the HTML canvas tag.
             </canvas>
             <div className='ch'>{children}</div>

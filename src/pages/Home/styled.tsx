@@ -44,4 +44,11 @@ export const HomeStyle = styled.div`
         font-size: 1.3rem;
         color: rgb(0,0,0);
     }
+
+    @media (max-width: 600px) { 
+
+        .home {
+            flex-direction: column;
+        }
+    }
 `;
