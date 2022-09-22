@@ -25,74 +25,94 @@ export const Canvas = ({children}: Props) => {
     let ref = useRef<HTMLCanvasElement>(null);
     let div = useRef<HTMLDivElement>(null);
 
+    let rgb = {
+        red: 155,
+        green: 189,
+        blue: 255
+    }
+
+    let quantityItems = 50;
+    let speedRange = [0.3, 1.2];
+    let itemSize = 3.2;
+
+    let distance = 200;
+
+
+    let width :number;
+    let height :number;
+    let xpos :number;
+    let ypos :number;
+
+    let requestId:any;
+
+    let itens:any = [];
+
 
     useEffect(() => {
+
         let canvas:any = ref.current;
         let context = canvas.getContext('2d');
-
         let ratio = getPixelRatio(context);
 
-        let width = getComputedStyle(canvas)
-            .getPropertyValue('width')
-            .slice(0, -2);
-        let height = getComputedStyle(canvas)
-            .getPropertyValue('height')
-            .slice(0, -2);
+        if(!div.current) return
+        let teste :any = div.current.getBoundingClientRect();
 
-        
-
-        canvas.width = parseInt(width) * ratio;
-        canvas.height = parseInt(height) * ratio;
-
-
+        width = canvas.width = parseInt(teste.width) * ratio;
+        height = canvas.height = parseInt(teste.height) * ratio;
 
         window.addEventListener('resize', function(event) {
 
             if(!div.current) return
             let teste :any = div.current.getBoundingClientRect();
 
-            canvas.width = parseInt(teste.width) * ratio;
-            canvas.height = parseInt(teste.height) * ratio;
-            width = teste.width;
-            height = teste.height;
-
-            console.log(canvas.width);
+            width = canvas.width = parseInt(teste.width) * ratio;
+            height = canvas.height = parseInt(teste.height) * ratio;
 
         }, true);
 
-        let requestId:any;
+        //document.onmousemove = (event) => {
+        //    xpos = event.pageX;
+        //    ypos = event.pageY;
+        //}
 
         const render = () => {
+
             context.clearRect(0,0, width, height);
+
             for(let i = 0; i < itens.length; i++)
             {
-
                 context.beginPath();
-                context.fillStyle = 'rgba(155, 189, 255, 1)';
-                //context.fillStyle = 'rgb('+ Math.random()*255+','+Math.random()*255+','+ Math.random()*255+')';
-                context.arc(itens[i].position_x, itens[i].position_y, 3.5, (Math.PI/180)*0, (Math.PI/180)*360, true );
+                context.fillStyle = `rgba(${rgb.red},${rgb.green},${rgb.blue}, 0.8)`;
+                //context.arc(xpos, ypos, itemSize, (Math.PI/180)*0, (Math.PI/180)*360, true );
+                context.arc(itens[i].position_x, itens[i].position_y, itemSize, (Math.PI/180)*0, (Math.PI/180)*360, true );
                 context.fill();
-
 
                 for(let j = 0; j < itens.length; j++)
                 {
-                    
-
                     let dist = Math.sqrt((Math.pow( itens[j].position_x - itens[i].position_x , 2)) + (Math.pow(itens[j].position_y - itens[i].position_y , 2)));
 
-                    if(dist < 200)
+                    if(dist < distance)
                     {
-                        //cor = -0.0004 * dist + 0.10044;
-                        //cor = -0.00095477 * dist + 0.200954;
-                        let cor = -0.0014572 * dist + 0.30144;
+                        let alpha = (-0.0014572 * dist + 0.30144) * 1.5;
                         context.beginPath();
-                        context.strokeStyle = 'rgba(155, 189, 255,'+ cor +')';
+                        context.strokeStyle = `rgba(${rgb.red},${rgb.green},${rgb.blue},${alpha})`;
                         context.moveTo(itens[i].position_x, itens[i].position_y);
                         context.lineTo(itens[j].position_x, itens[j].position_y);
                         context.stroke();
                     }
                 }
 
+                //let dist = Math.sqrt((Math.pow( xpos - itens[i].position_x , 2)) + (Math.pow( ypos - itens[i].position_y , 2)));
+                
+                //if(dist < distance)
+                //{
+                //    let alpha = (-0.0014572 * dist + 0.30144) * 3;
+                //    context.beginPath();
+                //    context.strokeStyle = `rgba(${rgb.red},${rgb.green},${rgb.blue},${alpha})`;
+                //    context.moveTo(itens[i].position_x, itens[i].position_y);
+                //    context.lineTo(xpos, ypos);
+                //    context.stroke();
+                //}
 
                 itens[i].position_x = itens[i].position_x + itens[i].velo_x;
                 itens[i].position_y = itens[i].position_y + itens[i].velo_y;
@@ -110,107 +130,9 @@ export const Canvas = ({children}: Props) => {
                         itens[i] = genareteInitialItem();
                     } 
                 }
-
-                //itens[i].position_x = itens[i].position_x + 10;
-                //itens[i].position_y = itens[i].position_y + 10;
-            
             }
             requestId = requestAnimationFrame(render);
         };
-
-
-
-        let itens:any = [];
-
-        function generateInitialItens()
-        {
-            for(let i = 0; i < 50; i++)
-            {
-                itens[i] = genareteInitialItem();
-            } 
-        }
-
-        function genareteInitialItem()
-        {
-            
-
-            let initial_y :number  , initial_x :number , final_x :number , final_y :number ;
-    
-            let line: number = Math.round(Math.random() * 4);
-
-            if( line === 1 || line === 2 ){
-
-                initial_y = Math.round(Math.random() * parseInt(height));
-                initial_x = line == 1 ? 0 : parseInt(width)
-
-                let lineFinal : number = Math.round(Math.random() * 4);
-                lineFinal = lineFinal === line ? 3 : lineFinal;
-
-                if( lineFinal === 1 || lineFinal === 2 )
-                {
-                    final_y = Math.round(Math.random() * parseInt(height));
-                    final_x = lineFinal == 1 ? 0 : parseInt(width) 
-                }
-                else
-                {
-                    final_x = Math.round(Math.random() * parseInt(width));
-                    final_y = lineFinal == 3 ? 0 : parseInt(height);
-                }
-            }
-            else
-            {
-
-                initial_x = Math.round(Math.random() * parseInt(width));
-                initial_y = line == 3 ? 0 : parseInt(height)
-
-                let lineFinal : number = Math.round(Math.random() * 4);
-                lineFinal = lineFinal === line ? 1 : lineFinal;
-
-                if( lineFinal === 1 || lineFinal === 2 )
-                {
-                    final_y = Math.round(Math.random() * parseInt(height));
-                    final_x = lineFinal == 1 ? 0 : parseInt(width) 
-                }
-                else
-                {
-                    final_x = Math.round(Math.random() * parseInt(width));
-                    final_y = lineFinal == 3 ? 0 : parseInt(height);
-                }
-            }
-
-
-            let item: Item  = {
-                initial_x: initial_x,
-                initial_y: initial_y,
-                final_x: final_x,
-                final_y: final_y,
-                position_x: initial_x, 
-                position_y: initial_y,
-                velo_x: 0,
-                velo_y: 0,
-                h: 0
-            }
-
-            let f_x = parseFloat(item.final_x);
-            let i_x = parseFloat(item.initial_x);
-            let f_y = parseFloat(item.final_y);
-            let i_y = parseFloat(item.initial_y);
-            let velo : number = randomIntFromInterval(0.3, 0.6);
-
-
-            let h = Math.sqrt((Math.pow( f_x - i_x , 2)) + (Math.pow(f_y - i_y , 2)));
-            item.velo_x = velo *((f_x - i_x) / h);
-            item.velo_y = velo *((f_y - i_y) / h);
-            item.h = h;
-
-            return item;
-        }
-
-        function randomIntFromInterval(min:number, max :number) 
-        {
-            return Math.random() * (max - min + 1) + min;
-        }
-
 
         generateInitialItens();
         render();
@@ -221,16 +143,72 @@ export const Canvas = ({children}: Props) => {
 
     });
 
-    type Item = {
-        initial_x: any,
-        initial_y: any,
-        final_x: any,
-        final_y: any,
-        position_x: any, 
-        position_y: any,
-        velo_x: any,
-        velo_y:any,
-        h: any
+    const generateInitialItens = () => {
+        for(let i = 0; i < quantityItems; i++)
+        {
+            itens[i] = genareteInitialItem(false);
+        } 
+    }
+
+    const genareteInitialItem = (borderPosition: boolean = true) =>  {
+
+        let initial_y :number  , initial_x :number , final_x :number , final_y :number ;
+
+        let line: number = Math.round(Math.random() * 4);
+        let lineFinal : number = Math.round(Math.random() * 4);
+
+        if( line === 1 || line === 2 ){
+
+            initial_y = Math.round(Math.random() * height);
+            initial_x = borderPosition 
+            ? line === 1 ? 0 : width
+            : Math.round(Math.random() * width);
+             
+            lineFinal = lineFinal === line ? 3 : lineFinal;
+        }
+        else
+        {
+            initial_x = Math.round(Math.random() * width);
+            initial_y = borderPosition 
+            ? line === 3 ? 0 : height
+            : Math.round(Math.random() * height);
+            lineFinal = lineFinal === line ? 1 : lineFinal;
+        }
+
+        if( lineFinal === 1 || lineFinal === 2 )
+        {
+            final_y = Math.round(Math.random() * height);
+            final_x = lineFinal === 1 ? 0 : width 
+        }
+        else
+        {
+            final_x = Math.round(Math.random() * width);
+            final_y = lineFinal === 3 ? 0 : height;
+        }
+
+        let velo : number = randomIntFromInterval(speedRange[0], speedRange[1]);
+        let distance = Math.sqrt((Math.pow( final_x - initial_x , 2)) + (Math.pow(final_y - initial_y , 2)));
+        let velo_x = velo *((final_x - initial_x) / distance);
+        let velo_y = velo *((final_y - initial_y) / distance);
+
+        return itemFactory(final_x, final_y, initial_x, initial_y, velo_x, velo_y);
+    }
+
+
+    function randomIntFromInterval(min:number, max :number) 
+    {
+        return Math.random() * (max - min + 1) + min;
+    }
+
+    const itemFactory = (final_x: number, final_y: number, position_x: number, position_y: number, velo_x: number, velo_y: number) => {
+        return {
+            final_x: final_x,
+            final_y: final_y,
+            position_x: position_x,
+            position_y: position_y,
+            velo_x: velo_x,
+            velo_y: velo_y
+        }
     }
 
     return (

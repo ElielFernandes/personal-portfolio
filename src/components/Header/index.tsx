@@ -17,9 +17,9 @@ export const Header = () => {
                         <span id="hamburger"></span>
                     </button>
                     <ul id="menu">
-                        <li><Link className="link" to="/">Home</Link></li>
-                        <li><Link className="link" to="/about">About</Link></li>
-                        <li><Link className="link" to="/contact">Contact</Link></li>
+                        <li><Link className="link" onClick={() =>setMenu(false)} to="/">Home</Link></li>
+                        <li><Link className="link" onClick={() =>setMenu(false)} to="/about">About</Link></li>
+                        <li><Link className="link" onClick={() =>setMenu(false)} to="/contact">Contact</Link></li>
                     </ul>
                 </nav>
         </HeaderStyle>

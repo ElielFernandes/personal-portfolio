@@ -1,6 +1,20 @@
 import styled from "styled-components";
 
 export const HomeStyle = styled.div`
+
+
+
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 1rem;
+    display: flex;
+    height: calc(100% - 60px);
+
+
+    @media (max-width: 600px) { 
+        flex-direction: column;
+    }
+
     .home{
         display: flex;
         height: 100%;
@@ -43,12 +57,5 @@ export const HomeStyle = styled.div`
     .home-info-web{
         font-size: 1.3rem;
         color: rgb(0,0,0);
-    }
-
-    @media (max-width: 600px) { 
-
-        .home {
-            flex-direction: column;
-        }
     }
 `;
