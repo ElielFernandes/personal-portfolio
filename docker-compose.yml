@@ -1,14 +1,12 @@
-version: "3.0"
+version: "3.8"
 services:
   node:
     build: .
     container_name: personal-portfolio
     hostname: personal-portfolio
     working_dir: /app
-    expose:
-      - "3000"
     ports:
-      - "3000:3000"
+      - "3000:80"
 networks:
   default:
     external:
