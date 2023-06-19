@@ -25,7 +25,7 @@ export const Progress = ({level, title}: Props) => {
         <ProgressStyle level={level}>
                 <div className="progressTitle">{title}</div>
                 <div className="progressBar">
-                    <div className="progressLevel">{value}%</div>
+                    <div className="progressLevel notranslate" translate="no">{value}%</div>
                 </div>
         </ProgressStyle>
     );
