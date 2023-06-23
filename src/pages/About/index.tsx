@@ -1,12 +1,12 @@
 import { AboutStyle } from "./styled";
 import { Header } from "../../components/Header";
-import { Canvas } from "../../components/Canvas";
+import { Animation } from "../../components/Animation";
 import { Card } from "../../components/Card";
 import { Progress } from "../../components/Progress";
 
 export const About = () => {
     return (
-        <Canvas>
+        <Animation>
             <Header/>
             <AboutStyle>
                 
@@ -61,6 +61,6 @@ export const About = () => {
                 </Card>
              
             </AboutStyle>
-        </Canvas>
+        </Animation>
     );
 }

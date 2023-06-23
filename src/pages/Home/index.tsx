@@ -1,6 +1,6 @@
 import { HomeStyle } from "./styled";
 import { Header } from "../../components/Header";
-import { Canvas } from "../../components/Canvas";
+import { Animation } from "../../components/Animation";
 import foto from "../../images/eliel.png";
 import { Card } from "../../components/Card";
 
@@ -8,7 +8,7 @@ import { BsLinkedin, BsGithub} from 'react-icons/bs';
 
 export const Home = () => {
     return (
-        <Canvas>
+        <Animation>
             <Header/>
             <HomeStyle>
                 <Card>
@@ -32,6 +32,6 @@ export const Home = () => {
                     </div>     
                 </Card>
             </HomeStyle>
-        </Canvas>
+        </Animation>
     );
 }
