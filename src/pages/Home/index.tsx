@@ -1,10 +1,9 @@
 import { HomeStyle } from "./styled";
 import { Header } from "../../components/Header";
 import { Animation } from "../../components/Animation";
-import foto from "../../images/eliel.png";
+import photo from "../../images/eliel.png";
 import { Card } from "../../components/Card";
-
-import { BsLinkedin, BsGithub} from 'react-icons/bs';
+import { BsLinkedin, BsGithub } from 'react-icons/bs';
 
 export const Home = () => {
     return (
@@ -28,7 +27,7 @@ export const Home = () => {
                 </Card>
                 <Card>
                     <div className="home-image">
-                        <img className="home-image-img" src={foto}/>
+                        <img className="home-image-img" src={photo}/>
                     </div>     
                 </Card>
             </HomeStyle>

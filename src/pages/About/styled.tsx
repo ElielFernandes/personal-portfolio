@@ -18,54 +18,15 @@ export const AboutStyle = styled.div`
     grid-template-areas:
       'item1 item3'
       'item2 item3';
-
-      
+  
     gap: 1rem;
 
     .about-description-formation{
         width: 100%;
     }
 
-    .about-description-formation-item{
-     
-        margin: 15px 8px;
-        border-left:  rgb(82, 81, 81) solid 2px;
-        padding-left: 5px;
-    }
-    
-    .about-description-formation-college{
-        font-size: 1rem;
-        margin: 1px;
-    }
-    
-    .about-description-formation-course{
-        font-size: .8rem;
-        margin: 1px;
-    }
-    
-    .about-description-formation-status{
-        font-size: .8rem;
-        margin: 1px;
-    }
-
     .about-description-professional{
         width: 100%;
-    }
-    
-    .about-description-professional-item{
-        margin: 15px 8px;
-        border-left:  rgb(82, 81, 81) solid 2px;
-        padding-left: 5px;
-    }
-    
-    .about-description-professional-company{
-        font-size: 1rem;
-        margin: 1px;
-    }
-    
-    .about-description-professional-office{
-        font-size: .8rem;
-        margin: 1px;
     }
 
     @media (max-width: 600px) { 
@@ -75,5 +36,13 @@ export const AboutStyle = styled.div`
         'item3'
         'item1'
         'item2';
+
+        .about-description-formation{
+            margin-top: 15px;
+        }
+
+        .about-description-professional{
+            margin-top: 15px;
+        }
     }
 `;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const HomeStyle = styled.div`
 
     max-width: 1200px;
-    margin: 0px auto;
+    margin: 0 auto;
     padding: 1rem;
     display: flex;
     min-height: calc(100vh - 64px);
