@@ -14,18 +14,18 @@ type Props = {
     maximumSpeed?: number;
 }
 
-export const Animation = ({children, size = 3.5, quantityItems = 50 , minimumSpeed = 0.3 , maximumSpeed = 0.8 }: Props) => {
+export const Animation = ({children, size = 3.5, quantityItems = 50 , minimumSpeed = 0.2 , maximumSpeed = 0.8 }: Props) => {
 
-    let ref = useRef<HTMLCanvasElement>(null);
-    let div = useRef<HTMLDivElement>(null);
-
+    const ref = useRef<HTMLCanvasElement>(null);
+    const div = useRef<HTMLDivElement>(null);
     let canvas: any;
+    let content: any;
     let context: any;
     let requestId: any;
     let items: Array<Item> = []; 
     let distance: number;
 
-    let rgb = {
+    const rgb = {
         red: 155,
         green: 189,
         blue: 255
@@ -34,13 +34,14 @@ export const Animation = ({children, size = 3.5, quantityItems = 50 , minimumSpe
     useEffect(() => {
 
         canvas = ref.current;
+        content = div.current;
         context = canvas.getContext('2d');
 
         window.addEventListener('resize', function() {
-            screenRisize(canvas);
+            screenResize(canvas, content);
         }, true);
         
-        screenRisize(canvas);
+        screenResize(canvas, content);
         
         items = itemFactory.create(
             canvas.width, 
@@ -59,15 +60,10 @@ export const Animation = ({children, size = 3.5, quantityItems = 50 , minimumSpe
         }
     });
 
-    const screenRisize = function (canvas: any) {
-
-        canvas.width = window.innerWidth
-        || document.documentElement.clientWidth
-        || document.body.clientWidth;
-    
-        canvas.height =  (window.innerHeight
-        || document.documentElement.clientHeight
-        || document.body.clientHeight);
+    const screenResize = function (canvas: any, content: any) {
+        
+        canvas.width = content.clientWidth;
+        canvas.height =  content.clientHeight;
 
         distance = canvas.width * 0.079 + 50;
     }
@@ -82,15 +78,15 @@ export const Animation = ({children, size = 3.5, quantityItems = 50 , minimumSpe
 
             context.beginPath();
             context.fillStyle = `rgba(${rgb.red},${rgb.green},${rgb.blue}, 0.8)`;
-            context.arc(items[i].position.x, items[i].position.y, items[i].size, (Math.PI/180)*0, (Math.PI/180)*360, true );
+            context.arc(items[i].position.x, items[i].position.y, items[i].size, 0, (Math.PI/180)*360, true );
             context.fill();
 
             for(j = 0; j < items.length; j++){
 
-                let dist = items[i].position.coordinateDistance(items[j].position);
+                const dist = items[i].position.coordinateDistance(items[j].position);
                 if(dist < distance && i !== j){
 
-                    let alpha = ((-dist / distance) + 0.9) * 0.6;
+                    const alpha = ((-dist / distance) + 0.9) * 0.6;
                     context.beginPath();
                     context.strokeStyle = `rgba(${rgb.red},${rgb.green},${rgb.blue},${alpha})`;
                     context.moveTo(items[i].position.x, items[i].position.y);
@@ -100,7 +96,7 @@ export const Animation = ({children, size = 3.5, quantityItems = 50 , minimumSpe
 
                 if(dist < (items[i].size * 2) && i !== j){
 
-                    let result = Physical.calculateCollision(items[i], items[j]);
+                    const result = Physical.calculateCollision(items[i], items[j]);
                     items[i] = result.item1;
                     items[j] = result.item2;
                 }
@@ -121,11 +117,11 @@ export const Animation = ({children, size = 3.5, quantityItems = 50 , minimumSpe
     };
     
     return (
-        <AnimationStyle className='teste' ref={div}>
-            <canvas ref={ref} style={{ width: '100vw', height: '99vh' }}>
+        <AnimationStyle>
+            <canvas ref={ref}>
                 Your browser does not support the HTML canvas tag.
             </canvas>
-            <div className='ch'>{children}</div>
+            <div ref={div} className='content' >{children}</div>
         </AnimationStyle>
     );
 };

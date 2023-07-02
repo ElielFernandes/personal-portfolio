@@ -6,7 +6,7 @@ export const HomeStyle = styled.div`
     margin: 0px auto;
     padding: 1rem;
     display: flex;
-    height: calc(100% - 60px);
+    min-height: calc(100vh - 64px);
 
     .home{
         display: flex;

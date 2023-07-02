@@ -8,7 +8,7 @@ import { BsLinkedin, BsGithub} from 'react-icons/bs';
 
 export const Home = () => {
     return (
-        <Animation>
+        <Animation quantityItems={60}>
             <Header/>
             <HomeStyle>
                 <Card>

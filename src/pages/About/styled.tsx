@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const AboutStyle = styled.div`
     
     max-width: 1200px;
-    margin: 0px auto;
-    height: calc(100% - 60px);
+    margin: 0 auto;
+    min-height: calc(100vh - 64px);
     padding: 1rem;
 
     display: grid;

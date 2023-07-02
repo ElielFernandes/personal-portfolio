@@ -6,7 +6,7 @@ import { Progress } from "../../components/Progress";
 
 export const About = () => {
     return (
-        <Animation>
+        <Animation quantityItems={60}>
             <Header/>
             <AboutStyle>
                 
